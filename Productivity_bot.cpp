@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <string>
+#include <Windows.h>
 using namespace std;
 
 int aims() {
@@ -16,7 +18,62 @@ int aims() {
 
 }
 
-int main() {
+void creation_array_of_disciplines(int count_of_disciplines) {
 
+
+    string* AoD; //array of input discipines, result
+    string* AoD2; //extra array
+    string s;
+    int count=0;
+    AoD = nullptr;
+
+    while (count < count_of_disciplines) {
+        SetConsoleCP(1251);
+        SetConsoleOutputCP(1251);
+
+        cout << "Введите " << count + 1 << " предмет" << endl;
+        getline(cin, s);
+
+        if (s != " " and s != "") {
+            count++;
+            AoD2 = new string[count]; //release memory for the new array
+
+            //copying the data from the old array
+            for (int i = 0; i < count - 1; i++) {
+                AoD2[i] = AoD[i];
+
+            
+
+            }
+            AoD2[count - 1] = s;
+            
+            //release memory allocated for old (previous array)
+            if (AoD != nullptr) { 
+                delete[] AoD;
+
+            }
+            //redirect pointer from the previous array AoD to the array AoD2
+            AoD = AoD2;
+
+        }
+        else {
+            break;
+        }
+
+
+    }
+    for (int i = 0; i < count_of_disciplines; i++) {
+        cout << AoD[i] << endl;
+
+    }
+
+}
+
+
+
+
+int main() {
+    int count_of_disciplines = 3;
+    creation_array_of_disciplines(3);
     return 0;
 }
