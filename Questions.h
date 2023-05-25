@@ -9,7 +9,7 @@ class Questions
 {
 public:
 
-	 pair<vector<int>, vector<double>> questions(int aim) {
+	pair<vector<int>, vector<double>> questions(int aim) {
 		int option;
 		double nakop;
 		vector<int> values;
@@ -25,13 +25,46 @@ public:
 		cout << "Данная задача представляет собой контрольную работу или экзамен?" << endl;
 		cin >> option;
 		values.push_back(option);
-		
+
+
+
+
+		cout << "Введите ваш текущий накоп по дисциплине" << endl;
+		cin >> nakop;
+
+
+		if (nakop <= 1) {
+			weights.push_back(0.8);
+
+		}
+
+		else if (nakop > 1 && nakop <= 2) {
+			weights.push_back(0.7);
+		}
+
+		else if (nakop > 2 && nakop <= 3) {
+			weights.push_back(0.6);
+		}
+
+		else if (nakop > 3 && nakop < 4) {
+			weights.push_back(0.5);
+		}
+
+		else {
+			weights.push_back(0.3);
+		}
+
+		values.push_back(1);
+
+
+
 		switch (aim) {
 
 		case 1:
 
 
 			if (option == 0) {
+
 
 				weights.push_back(0.4);
 				cout << "Есть ли у вас возможность кому-то делегировать задачу?" << endl;
@@ -48,10 +81,12 @@ public:
 
 			}
 			else {
+				cout << "Yes" << endl;
 
 				weights.push_back(0.6);
 			}
-			
+			break;
+
 
 
 		case 2:
@@ -68,7 +103,7 @@ public:
 				else {
 					weights.push_back(0.1);
 				}
-				
+
 			}
 			else {
 				weights.push_back(0.6);
@@ -84,7 +119,18 @@ public:
 				weights.push_back(0.01);
 			}
 
+			break;
 
+		case 3:
+			if (option == 1) {
+				weights.push_back(0.6);
+
+			}
+			else {
+				weights.push_back(0.4);
+			}
+
+			break;
 		case 4:
 
 			if (option == 0) {
@@ -104,42 +150,12 @@ public:
 			else {
 				weights.push_back(0.6);
 			}
-
-			int nakop;
-			cout << "Введите ваш текущий накоп по дисциплине";
-			cin >> nakop;
-
-
-			if (nakop <= 1) {
-				weights.push_back(0.8);
-
-			}
-
-			else if (nakop > 1 && nakop <= 2) {
-				weights.push_back(0.7);
-			}
-
-			else if (nakop > 2 && nakop <= 3) {
-				weights.push_back(0.6);
-			}
-
-			else if (nakop > 3 && nakop < 4) {
-				weights.push_back(0.5);
-			}
-
-			else {
-				weights.push_back(0.3);
-			}
-
-			values.push_back(1);
-
-
-
-
+			break;
 
 
 		}
 		return make_pair(values, weights);
+
 
 
 	}
