@@ -15,9 +15,7 @@ public:
         int bias;
         int count_of_disciplines = lst_of_disciplines.size();
         double perceptron_value = 0;
-        for (auto c : params.second) {
-            cout << c << endl;
-        }
+        
 
         for (int i = 0; i < count_of_disciplines; i++) {
 

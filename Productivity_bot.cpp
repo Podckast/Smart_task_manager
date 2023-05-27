@@ -2,6 +2,7 @@
 #include <string>
 #include <Windows.h>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <fstream>
 #include "Perceptron.h"
@@ -120,6 +121,7 @@ public:
 
         string discipline;
         vector<string> list_of_disciplines;
+      
 
         ifstream f("Discipline_base.txt");
 
@@ -133,7 +135,66 @@ public:
         return list_of_disciplines;
 
     }
+
     
+    vector<double> mergeSort(vector<double>& arr) {
+        if (arr.size() == 1) { 
+            return arr;
+        }
+
+        
+        int mid_index = arr.size() / 2;
+        vector<double> left_arr(arr.begin(), arr.begin() + mid_index);
+        vector<double> right_arr(arr.begin() + mid_index, arr.end());
+
+        
+        left_arr = mergeSort(left_arr);
+        right_arr = mergeSort(right_arr);
+
+        
+        return merge(left_arr, right_arr);
+    }
+    
+    string get_key(map<string, double> tasks, int task) {
+        
+        for (auto const& p : tasks) {
+            if (p.second == task) {
+                return p.first;
+            }
+        }
+
+
+    }
+    
+    private:
+        vector<double> merge(vector<double>& left_arr, vector<double>& right_arr) {
+            vector<double> merged_arr; // Новый массив для объединения
+
+            int i = 0, j = 0;
+            while (i < left_arr.size() && j < right_arr.size()) {
+                if (left_arr[i] > right_arr[j]) {
+                    merged_arr.push_back(left_arr[i]);
+                    i++;
+                }
+                else {
+                    merged_arr.push_back(right_arr[j]);
+                    j++;
+                }
+            }
+
+
+            while (i < left_arr.size()) {
+                merged_arr.push_back(left_arr[i]);
+                i++;
+            }
+
+            while (j < right_arr.size()) {
+                merged_arr.push_back(right_arr[j]);
+                j++;
+            }
+
+            return merged_arr;
+        }
 
 };
 
@@ -150,6 +211,9 @@ int main() {
 
         Perceptron perceptron;
         double perceptron_value;
+        vector<double> perceptron_values;
+        map<string, double> tasks;
+
 
 
         cout << "Вы хотите: \n"
@@ -160,19 +224,17 @@ int main() {
 
         
         int opt, count_of_disciplines;
+        int count_of_tasks;
         string task_type;
+        string task;
         vector<string> disciplines;
 
         int aim = 0;
         cin >> opt;
         
-        
 
-       
         switch (opt) {
 
-
-        
 
         case 1:
 
@@ -202,36 +264,52 @@ int main() {
         case 3:
 
             aim = bot.aims();
-            cout << aim << endl;
-
-            cout << "По какой дисциплине задача?" << endl;
-            cin >> task_type;
-
             disciplines = bot.creation_list_of_disciplines();
 
-            
-            params = question_ex.questions(aim);
+            cout << "Какое количество задач вы хотите распределить?" << endl;
+            cin >> count_of_tasks;
 
-            
-            perceptron_value = perceptron.predict(params, disciplines, task_type);
+            cin.ignore();
 
-            cout << perceptron_value << endl;
-            
-          
-            
-            break;
+            for (int i = 0; i < count_of_tasks; i++) {
 
 
+                cout << "Введите " << (i+1) << " задачу" << endl;
+                getline(cin, task);
+                
+               
 
-        
+                cout << "По какой дисциплине задача?" << endl;
+                cin >> task_type;
+                
 
-        
+                params = question_ex.questions(aim);
+
+                perceptron_value = perceptron.predict(params, disciplines, task_type);
+
+                perceptron_values.push_back(perceptron_value);
+
+                tasks[task] = perceptron_value;
+
+                cin.ignore();
+
+                
+
+
+            }
+
+            perceptron_values = bot.mergeSort(perceptron_values);
+
+            for (auto i = tasks.begin(); i != tasks.end(); ++i) {
+                
+
+                cout << i->first << " - " << i->second << endl;
+
+            }
         case 4:
 
             return 0;
 
-            
-       
         }
         
     }

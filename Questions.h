@@ -10,6 +10,7 @@ class Questions
 public:
 
 	pair<vector<int>, vector<double>> questions(int aim) {
+
 		int option;
 		double nakop;
 		vector<int> values;
@@ -19,15 +20,14 @@ public:
 
 		cout << "Дедлайн задачи через 5 дней или меньше?" << endl;
 		cin >> option;
+		cin.ignore();
 		values.push_back(option);
 		weights.push_back(0.8);
 
 		cout << "Данная задача представляет собой контрольную работу или экзамен?" << endl;
 		cin >> option;
+		cin.ignore();
 		values.push_back(option);
-
-
-
 
 		cout << "Введите ваш текущий накоп по дисциплине" << endl;
 		cin >> nakop;
@@ -69,6 +69,7 @@ public:
 				weights.push_back(0.4);
 				cout << "Есть ли у вас возможность кому-то делегировать задачу?" << endl;
 				cin >> option;
+				cin.ignore();
 				values.push_back(option);
 				if (option == 1) {
 					weights.push_back(0.35);
@@ -81,7 +82,6 @@ public:
 
 			}
 			else {
-				cout << "Yes" << endl;
 
 				weights.push_back(0.6);
 			}
@@ -95,6 +95,7 @@ public:
 				weights.push_back(0.4);
 				cout << "Задача требует высокой мозговой активности, творческая или же имеется чёткая инструкция с подробным описанием каждого шага?" << endl;
 				cin >> option;
+				cin.ignore();
 				values.push_back(option);
 
 				if (option == 1) {
@@ -111,6 +112,7 @@ public:
 
 			cout << "Связана ли задача по дисциплине с тем, чем вы хотите заниматься в будущем?";
 			cin >> option;
+			cin.ignore();
 			values.push_back(option);
 			if (option == 1) {
 				weights.push_back(0.99);
@@ -137,6 +139,7 @@ public:
 				weights.push_back(0.4);
 				cout << "Есть ли у вас возможность делегировать задачу НАДЁЖНОМУ человеку (который сделает всё максимально качественно?";
 				cin >> option;
+				cin.ignore();
 				values.push_back(option);
 				if (option == 1) {
 					weights.push_back(0.1);
