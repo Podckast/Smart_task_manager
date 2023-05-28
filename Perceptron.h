@@ -20,7 +20,7 @@ public:
         for (int i = 0; i < count_of_disciplines; i++) {
 
             if (task_type == lst_of_disciplines[i]) {
-                cout << "Дисциплина найдена!" << endl;
+                
                 bias = i+1;
                 perceptron_value += (double)bias;
 
