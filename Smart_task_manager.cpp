@@ -72,7 +72,7 @@ public:
 
         switch (aim) {
         case 1:
-            cout << "Введите все учебные дисциплины в порядке возрастания вашего текущего накопа по ним\n"
+            cout << "Введите все учебные дисциплины в порядке убывания вашего текущего накопа по ним\n"
                 << "(Начиная от дисциплины, по которой у вас самый низкий накоп, заканчивая той, по которой самый высокий\n"
                 << "(Если накоп по всем дисциплинам равен нулю, введите дисциплины в любом порядке" << endl;
             break;
@@ -171,7 +171,7 @@ public:
 
     }
     
-
+    
 
     vector<string> task_file_read() {
 
@@ -184,7 +184,7 @@ public:
 
             
 
-            cout << "Файл успешно открыт" << endl;
+            
             while (getline(f_r,f_task)) {
 
                 task_list.push_back(f_task);
@@ -271,6 +271,7 @@ int main() {
         vector<double> perceptron_values;
         map<string, double> tasks;
         vector<string> task_list;
+        int k = 0;
 
 
         
@@ -306,6 +307,8 @@ int main() {
         case 1:
 
             stm.aims_def();
+            cout << "Цель определена" << endl;
+            cout << endl;
             break;
 
         case 2:
@@ -333,9 +336,12 @@ int main() {
             
             aim = stm.aims();
             disciplines = stm.creation_list_of_disciplines();
-
-         
-
+            if (disciplines.size() == 0) {
+                cout << "Вы не заполнили список дисциплин!" << endl;
+                cout << endl;
+                break;
+            }
+            
             cout << "Какое количество задач вы хотите распределить?" << endl;
             cin >> count_of_tasks;
 
@@ -347,44 +353,59 @@ int main() {
                 cout << "Введите " << (i+1) << " задачу" << endl;
                 getline(cin, task);
                 
-                cout << "По какой дисциплине задача?" << endl;
+                cout << "По какой дисциплине задача? (вводите дисциплину так же, как вы её ввводили, когда заполняли список дисциплин!)" << endl;
                 getline(cin, task_type);
                 
-                cout << task_type << endl;
 
                 params = question_ex.questions(aim);
 
                 perceptron_value = perceptron.predict(params, disciplines, task_type);
 
+                if (perceptron_value == 0) {
+                    cout << "Вы неправильно ввели название дисциплины!" << endl;
+                    cout << endl;
+                    break;
+                }
 
-                perceptron_values.push_back(perceptron_value);
+                else {
+                    perceptron_values.push_back(perceptron_value);
 
-                tasks[task] = perceptron_value;
+                    tasks[task] = perceptron_value;
 
-                cin.ignore();
+                    cin.ignore();
+                }
+                
+                
                 
 
 
             }
             
+            if (perceptron_values.size() > 0) {
+                perceptron_values = stm.mergeSort(perceptron_values);
 
-            perceptron_values = stm.mergeSort(perceptron_values);
+                cout << "Ваш список задач: " << endl;
+                cout << endl;
 
-            for (const auto& value : perceptron_values) {
-                
-                for (const auto& item : tasks) {
+                for (const auto& value : perceptron_values) {
 
-                    if (item.second == value) {
+                    for (const auto& item : tasks) {
 
-                        cout << item.first << endl;
-                        stm.task_file_write(item.first);
-                        
+                        if (item.second == value) {
 
+                            k++;
+                            cout << k << " приоритет: " << item.first << endl;
+                            stm.task_file_write(item.first);
+
+
+                        }
                     }
-                }
 
+                }
+                cout << endl;
+                break;
             }
-            break;
+            
             
             
 
@@ -397,7 +418,8 @@ int main() {
                 cout << el << endl;
 
             }
-            return 0;
+            cout << endl;
+            break;
 
             
         case 5:
@@ -409,6 +431,7 @@ int main() {
                 remove("Discipline_base.txt");
                 remove("Task_file.txt");
                 cout << "Ваша текущая цель онулирована, нажмите 1 на главном меню, чтобы выбрать новую цель (ваши списки дисциплин и задач также удалились, вам необходимо заново их заполнять)" << endl;
+                cout << endl;
                 break;
             }
             else {
@@ -423,6 +446,7 @@ int main() {
             stm.task_del(task_to_delete);
             
             cout << "Задача удалена из списка задач" << endl;
+            cout << endl;
             break;
             
             
