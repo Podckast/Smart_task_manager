@@ -171,7 +171,27 @@ public:
 
     }
     
-    
+    vector<string> discipline_file_read() {
+        string f_discipline;
+        vector<string> discipline_list;
+        ifstream f_r("Discipline_base.txt");
+        if (f_r.is_open()) {
+
+
+
+
+            while (getline(f_r, f_discipline)) {
+
+                discipline_list.push_back(f_discipline);
+
+            }
+            f_r.close();
+
+        }
+
+
+        return discipline_list;
+    }
 
     vector<string> task_file_read() {
 
@@ -271,6 +291,7 @@ int main() {
         vector<double> perceptron_values;
         map<string, double> tasks;
         vector<string> task_list;
+        vector<string> discipline_list;
         int k = 0;
 
 
@@ -283,8 +304,11 @@ int main() {
             << "2 - создать и заполнить новый список дисциплин или добавить новые дисциплины в старый\n"
             << "3 - распределить задачи\n"
             << "4 - вывести список задач\n"
-            << "5 - изменить цель (вам придётся заново заполнять список дисциплин и список задач!)\n" 
-            << "6 - удалить выполненнную задачу из списка задач"
+            << "5 - изменить цель (вам придётся заново заполнять список дисциплин и список задач!)\n"
+            << "6 - удалить выполненнную задачу из списка задач\n"
+            << "7 - вывести список дисциплин\n"
+            << "8 - удалить список задач\n"
+
             << endl;
 
 
@@ -449,9 +473,27 @@ int main() {
             cout << endl;
             break;
             
-            
+        case 7:
+
+            discipline_list = stm.discipline_file_read();
+
+            if (discipline_list.size() == 0) {
+                cout << "Вы не создали список дисциплин" << endl;
+                cout << endl;
+                break;
+            }
+
+            for (auto el : discipline_list) {
+
+                cout << el << endl;
+
+            }
+            cout << endl;
+            break;
+
 
         }
+
 
         
     }
