@@ -55,6 +55,8 @@ public:
 
     }
 
+    
+
 
     void creation_data_base_of_disciplines(int aim, int count_of_disciplines) {
 
@@ -102,7 +104,7 @@ public:
 
             cout << "Введите " << (i + 1) << " дисциплину" << endl;
 
-            getline(cin, discipline);
+            getline(cin,discipline);
 
             f << discipline << "\n"; 
         }
@@ -128,7 +130,7 @@ public:
         ifstream f("Discipline_base.txt");
 
         if (f.is_open()) {
-            while (f >> discipline) {
+            while (getline(f,discipline)) {
                 list_of_disciplines.push_back(discipline);
 
             }
@@ -197,6 +199,29 @@ public:
 
     }
     
+    void task_del(string f_task) {
+
+        ifstream f("Task_file.txt");
+        ofstream temp_f("Temp.txt");
+
+        string line;
+        
+        while (getline(f, line)) {
+
+            if (line != f_task) {
+
+                temp_f << line << endl;
+            }
+        }
+        f.close();
+        temp_f.close();
+
+        remove("Task_file.txt");
+        rename("Temp.txt", "Task_file.txt");
+
+
+
+    }
     
     private:
         vector<double> merge(vector<double>& left_arr, vector<double>& right_arr) {
@@ -257,14 +282,18 @@ int main() {
             << "2 - создать и заполнить новый список дисциплин или добавить новые дисциплины в старый\n"
             << "3 - распределить задачи\n"
             << "4 - вывести список задач\n"
-            << "5 - добавить новые дисциплины в список дисциплин" << endl;
+            << "5 - изменить цель (вам придётся заново заполнять список дисциплин и список задач!)\n" 
+            << "6 - удалить выполненнную задачу из списка задач"
+            << endl;
 
 
         
         int opt, count_of_disciplines;
+        int choice;
         int count_of_tasks;
         string task_type;
         string task;
+        string task_to_delete;
         vector<string> disciplines;
 
         int aim = 0;
@@ -305,6 +334,8 @@ int main() {
             aim = stm.aims();
             disciplines = stm.creation_list_of_disciplines();
 
+         
+
             cout << "Какое количество задач вы хотите распределить?" << endl;
             cin >> count_of_tasks;
 
@@ -317,18 +348,21 @@ int main() {
                 getline(cin, task);
                 
                 cout << "По какой дисциплине задача?" << endl;
-                cin >> task_type;
+                getline(cin, task_type);
                 
+                cout << task_type << endl;
 
                 params = question_ex.questions(aim);
 
                 perceptron_value = perceptron.predict(params, disciplines, task_type);
+
 
                 perceptron_values.push_back(perceptron_value);
 
                 tasks[task] = perceptron_value;
 
                 cin.ignore();
+                
 
 
             }
@@ -350,9 +384,9 @@ int main() {
                 }
 
             }
-
+            break;
             
-            return 0;
+            
 
         case 4:
 
@@ -367,10 +401,30 @@ int main() {
 
             
         case 5:
+            cout << "Вы точно хотите изменить цель? (1 - да, 0 - нет)" << endl;
+            cin >> choice;
+            
+            if (choice == 1) {
+                remove("Aim.txt");
+                remove("Discipline_base.txt");
+                remove("Task_file.txt");
+                cout << "Ваша текущая цель онулирована, нажмите 1 на главном меню, чтобы выбрать новую цель (ваши списки дисциплин и задач также удалились, вам необходимо заново их заполнять)" << endl;
+                break;
+            }
+            else {
+                break;
+            }
 
+        case 6:
 
-            return 0;
-
+            cout << "Введите задачу, которую вы выполнили и хотите убрать из списка задач" << endl;
+            cin.ignore();
+            getline(cin, task_to_delete);
+            stm.task_del(task_to_delete);
+            
+            cout << "Задача удалена из списка задач" << endl;
+            break;
+            
             
 
         }

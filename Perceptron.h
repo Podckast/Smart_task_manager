@@ -8,7 +8,7 @@ class Perceptron
 {
 public:
 
-    double predict(pair<vector<int>, vector<double>> params, vector<string> lst_of_disciplines, string task) {
+    double predict(pair<vector<int>, vector<double>> params, vector<string> lst_of_disciplines, string task_type) {
 
 
 
@@ -19,7 +19,8 @@ public:
 
         for (int i = 0; i < count_of_disciplines; i++) {
 
-            if (task == lst_of_disciplines[i]) {
+            if (task_type == lst_of_disciplines[i]) {
+                cout << "Дисциплина найдена!" << endl;
                 bias = i+1;
                 perceptron_value += (double)bias;
 
@@ -33,10 +34,15 @@ public:
 
                 return perceptron_value;
             }
+            
 
 
         }
+        
         return 0;
+
+        
+        
     }
 
 
