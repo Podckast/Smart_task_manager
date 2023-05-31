@@ -49,7 +49,7 @@ public:
         }
         else {
 
-            cout << "Вы забыли определить цель" << endl;
+            
             return 0;
 
         }
