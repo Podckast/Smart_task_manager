@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <limits>
 #include <string>
 #include <Windows.h>
@@ -69,6 +69,7 @@ int main() {
 
 
         case 1:
+            
             aim = stm.aims();
 
             if (aim != 0) {
@@ -88,6 +89,7 @@ int main() {
 
             aim = stm.aims();
             if (aim == 0) {
+                cout << "Вы забыли определить цель" << endl;
                 break;
             }
             else {
