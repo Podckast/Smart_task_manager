@@ -22,7 +22,7 @@ public:
 		cin >> option;
 		//cin.ignore();
 		values.push_back(option);
-		weights.push_back(0.8);
+		weights.push_back(0.99);
 
 		cout << "Данная задача представляет собой контрольную работу или экзамен?" << endl;
 		cin >> option;
@@ -34,16 +34,16 @@ public:
 
 
 		if (nakop <= 1) {
-			weights.push_back(0.8);
+			weights.push_back(0.99);
 
 		}
 
 		else if (nakop > 1 && nakop <= 2) {
-			weights.push_back(0.7);
+			weights.push_back(0.9);
 		}
 
 		else if (nakop > 2 && nakop <= 3) {
-			weights.push_back(0.6);
+			weights.push_back(0.8);
 		}
 
 		else if (nakop > 3 && nakop < 4) {
@@ -51,7 +51,7 @@ public:
 		}
 
 		else {
-			weights.push_back(0.3);
+			weights.push_back(0.01);
 		}
 
 		values.push_back(1);
